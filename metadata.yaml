@@ -1,0 +1,8 @@
+name: astrbot_plugin_nyaa_reminder
+display_name: Nyaa猫猫闹钟
+desc: 定时主动给QQ群聊或者QQ号发送消息。
+help: 在 WebUI 插件配置页填写发送目标类型（个人、群聊），填写QQ号或者群号，选择提醒类型（一次、每日，默认选中每日），选择提醒时间（一次性类可以选择年月日时分，每日类型只能选择时分），填写发送消息内容文本（支持换行），点击建立任务后在任务列表中生成一条任务。生成的每条提醒为一条任务记录，列在WebUI下半部的任务列表中任务条目前有启用勾选框，可以勾选是否启用任务（建立后默认启用），任务条目后方有删除按钮，点击后删除这条任务。
+version: 1.0.0
+author: NyaaCaster
+repo: https://github.com/NyaaCaster/astrbot_plugin_nyaa_reminder
+astrbot_version: ">=4.0.0"

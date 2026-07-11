@@ -1,0 +1,42 @@
+{
+  "tasks": {
+    "description": "提醒任务列表",
+    "type": "list",
+    "default": [],
+    "items": {
+      "enabled": {
+        "description": "启用此任务",
+        "type": "bool",
+        "default": true
+      },
+      "target_type": {
+        "description": "目标类型",
+        "type": "string",
+        "options": ["个人", "群聊"],
+        "default": "群聊"
+      },
+      "target_id": {
+        "description": "QQ号 或 群号",
+        "type": "string",
+        "default": ""
+      },
+      "reminder_type": {
+        "description": "提醒类型",
+        "type": "string",
+        "options": ["一次性", "每日"],
+        "default": "每日"
+      },
+      "reminder_time": {
+        "description": "提醒时间",
+        "type": "string",
+        "default": "",
+        "hint": "一次性填入 YYYY-MM-DD HH:MM，每日填入 HH:MM"
+      },
+      "message_content": {
+        "description": "消息内容（支持换行）",
+        "type": "text",
+        "default": ""
+      }
+    }
+  }
+}
