@@ -40,14 +40,23 @@ class NyaaReminderPlugin(Star):
         self._scan_task: Optional[asyncio.Task] = None
         # 防重复：记录已触发的每日任务 "target_id|HH:MM|YYYY-MM-DD"
         self._fired_daily: Set[str] = set()
+        # Platform ID，在 initialize() 中动态获取
+        self._platform_id: str = "aiocqhttp"
 
     # ------------------------------------------------------------------- #
     # 生命周期
     # ------------------------------------------------------------------- #
 
     async def initialize(self) -> None:
+        # 动态获取 aiocqhttp 平台的实际 ID（meta().id 与 meta().name 不同）
+        for p in self.context.platform_manager.platform_insts:
+            if p.meta().name == "aiocqhttp":
+                self._platform_id = p.meta().id
+                break
+        logger.info(
+            f"[nyaa_reminder] 猫猫闹钟已启动，platform_id={self._platform_id}"
+        )
         self._scan_task = asyncio.create_task(self._scan_loop())
-        logger.info("[nyaa_reminder] 猫猫闹钟已启动，每 30 秒扫描提醒任务。")
 
     async def terminate(self) -> None:
         if self._scan_task:
@@ -177,7 +186,7 @@ class NyaaReminderPlugin(Star):
 
         # 构造 unified_msg_origin 格式: platform_id:MessageType:session_id
         message_type = "GroupMessage" if target_type == "群聊" else "FriendMessage"
-        session_str = f"aiocqhttp:{message_type}:{target_id}"
+        session_str = f"{self._platform_id}:{message_type}:{target_id}"
 
         chain = MessageChain().message(message_content)
         ok = await self.context.send_message(session_str, chain)
