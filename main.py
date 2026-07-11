@@ -35,6 +35,7 @@ class NyaaReminderPlugin(Star):
     def __init__(self, context: Context, config: Optional[dict] = None):
         super().__init__(context)
         self.config = config or {}
+        self._config_key = "astrbot_plugin_nyaa_reminder"
         # 后台扫描任务
         self._scan_task: Optional[asyncio.Task] = None
         # 防重复：记录已触发的每日任务 "target_id|HH:MM|YYYY-MM-DD"
@@ -79,7 +80,7 @@ class NyaaReminderPlugin(Star):
 
     async def _check_and_fire(self) -> None:
         now = datetime.now()
-        tasks: list = self.config.get("tasks", [])
+        tasks: list = self.config.get(self._config_key, [])
         if not tasks:
             return
 
@@ -128,7 +129,7 @@ class NyaaReminderPlugin(Star):
             self._fired_daily.clear()
 
         if changed:
-            self.config["tasks"] = tasks
+            self.config[self._config_key] = tasks
             try:
                 self.config.save_config()
             except Exception:
